@@ -1,1 +1,85 @@
-faT5dhjPPhJcGT52jcjz5kERme7Qd5zw
+-- KEY SYSTEM
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+local Window = OrionLib:MakeWindow({Name = "Key", HidePremium = false, SaveConfig = false,IntroEnabled = false})
+local Player = game.Players.LocalPlayer
+
+OrionLib:MakeNotification({
+	Name = "Logged in!",
+	Content = "Welcome "..Player.Name.."!",
+	Image = "rbxassetid://6523858422",
+	Time = 4
+})
+
+--FIX THIS (GETKEY GETS "NIL" VALUE)
+-- FIND ANOTHER WAY TO DO IT
+
+
+_G.Key  = "GARGANSCRIPTRELEASE"
+print(Key)
+_G.KeyInput = "string"
+
+function MakeScriptHub()
+    loadstring(game:HttpGet(('https://raw.githubusercontent.com/GarganSploits/Garganscript/main/GarganScript')))()
+end
+
+function CorrectKeyNotification()
+    OrionLib:MakeNotification({
+        Name = "Correct Key!",
+        Content = "Your Key was correctly verified!",
+        Image = "rbxassetid://6523858422",
+        Time = 4
+    })
+end
+function IncorrectKeyNotification()
+    OrionLib:MakeNotification({
+        Name = "Incorrect Key!",
+        Content = "Your Key is incorrect, check the discord to get the newer one!",
+        Image = "rbxassetid://6523858422",
+        Time = 4
+    })
+end
+
+
+local Tab = Window:MakeTab({
+	Name = "Key",
+	Icon = "rbxassetid://10871266127",
+	PremiumOnly = false
+})
+
+Tab:AddTextbox({
+	Name = "Enter Key",
+	Default = "",
+	TextDisappear = true,
+	Callback = function(Value)
+		_G.KeyInput = Value
+        print(KeyInput)
+	end	  
+})
+Tab:AddButton({
+	Name = "Check Key!",
+	Callback = function()
+        if _G.Key == _G.KeyInput then
+            MakeScriptHub()
+            CorrectKeyNotification()
+            Window:Destroy()
+        else
+            IncorrectKeyNotification()
+        end
+  	end    
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+OrionLib:Init()
