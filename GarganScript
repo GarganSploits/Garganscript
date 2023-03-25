@@ -1,0 +1,282 @@
+-- MAIN HUB --
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+-- Window
+local MainWindow = OrionLib:MakeWindow({Name = "GarganScript || KRNL Version", HidePremium = false, SaveConfig = false, IntroEnabled = false})
+-- Values
+
+
+-- Functions
+
+
+-- Tabs
+local GenScriptsTab = MainWindow:MakeTab({
+	Name = "General Scripts",
+	Icon = "rbxassetid://11322093471",
+	PremiumOnly = false
+})
+--[[local UnivScriptsTab = MainWindow:MakeTab({
+	Name = "Universal Scripts",
+	Icon = "rbxassetid://11560341145",
+	PremiumOnly = false
+})
+]]
+local OtherScriptsTab = MainWindow:MakeTab({
+	Name = "Other Scripts",
+	Icon = "rbxassetid://3057073095",
+	PremiumOnly = false
+})
+local Extras = MainWindow:MakeTab({
+	Name = "Extras",
+	Icon = "rbxassetid://10885640695",
+	PremiumOnly = false
+})
+
+
+-- Buttons
+--BUTTONS FOR GENERAL
+GenScriptsTab:AddButton({
+	Name = "RTX",
+	Callback = function()
+        loadstring(game:HttpGet('https://pastebin.com/raw/Bkf0BJb3'))();
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "Air Hub",
+	Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/AirHub.lua",true))()
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "Ice Hub (Adopt me/Brookhaven)",
+	Callback = function()
+			loadstring(game:HttpGet('https://icehub.cf/IceHubLoader'))()
+			  
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "OwlHub",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "AntiLag",
+	Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/a0J6nLHZ", true))()
+			  
+  	end    
+})
+
+GenScriptsTab:AddButton({
+	Name = "Click TP Script",
+	Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Ssmmc3/ClickTP/main/ClickTP"))()
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "Loop Fling All",
+	Callback = function()
+		loadstring(game:HttpGet('https://github.com/DigitalityScripts/roblox-scripts/raw/main/loop%20fling%20all'))()
+			  
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "Bitch Bot V2",
+	Callback = function()
+		loadstring(game:HttpGet("https://gist.githubusercontent.com/paradoxw/9b9f673da81e0e721b7162ccd6d37f22/raw/03fa5873071ce8d2f56a863633b487981e01e6de/bitchbot%2520v2", true))()
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "Inf Yield",
+	Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+			  
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "Player Hub",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/JustAP1ayer/PlayerHubOther/main/PlayerHubLoader.lua",true))()
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "Hide Name Script",
+	Callback = function()
+		getgenv().Config = {
+    FakeName = "H4CKED", -- Change This to what ever you want
+    FakeDisplayName = "lIlIIIIlllIlIl"  -- Change This to what ever you want
+}
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/Crimson-gith/NameHider/main/NameHider'),true))()
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "Hydro Hub",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/MegamiShin/Exploit-Scripts/main/HydroHub/Loader.lua", true))()
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "",
+	Callback = function()
+		loadstring(game:HttpGet("", true))()
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "Fool Hub",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/OneFool/fool-hub/main/Fool%20Hub%20Universal"))()
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "VG Hub",
+	Callback = function()
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
+  	end    
+})
+--[[GenScriptsTab:AddButton({
+	Name = "",
+	Callback = function()
+		loadstring(game:HttpGet(""))();
+  	end    
+})
+GenScriptsTab:AddButton({
+	Name = "",
+	Callback = function()
+		loadstring(game:HttpGet(""))();
+  	end    
+})
+]]
+
+--[[BUTTONS UNIVERSAL
+
+UnivScriptsTab:AddButton({
+	Name = "Universal Aimbot Script",
+	Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/Exunys/Aimbot-Script/main/Aimbot%20Script.lua'))()
+  	end})
+UnivScriptsTab:AddButton({
+	Name = "Anti AFK",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/main/Antiafk", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "Fly Script (Press E)",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/main/Fly", true))()
+		end})		
+UnivScriptsTab:AddButton({
+	Name = "Inf Jump",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/main/infjump", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "AutoClicker",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/main/autoclicker", true))()
+		end})	
+UnivScriptsTab:AddButton({
+	Name = "Silent Aim",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/main/silentaim", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "Universal ESP Boxes",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/main/UniversalBoxEsp", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "button",
+	Callback = function()
+		loadstring(game:HttpGet("link", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "button",
+	Callback = function()
+		loadstring(game:HttpGet("link", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "button",
+	Callback = function()
+		loadstring(game:HttpGet("link", true))()
+		end})
+]]
+
+--BUTTONS FOR OTHER
+
+OtherScriptsTab:AddButton({
+		Name = "Homework Printing Sim Autofinish",
+		Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/n8772soQP1/cczx221/main/ffzx22"))()
+		  end    
+	})
+OtherScriptsTab:AddButton({
+		Name = "Ninja Legend/Legend Of Speed Script Autofarm",
+		Callback = function()
+				  loadstring(game:HttpGet("https://raw.githubusercontent.com/Jhoncliford/Scripte/main/script.loader", true))()
+		  end})
+OtherScriptsTab:AddButton({
+		Name = "Try to die Hub",
+		Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/WinterDinder/Try-To-Die/main/Main", true))()
+		  end})
+OtherScriptsTab:AddButton({
+		Name = "DaHood Script",
+		Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/jemangeleZ/KLD/main/KLD", true))()
+		  end})
+OtherScriptsTab:AddButton({
+        Name = "Arsenal Silent Aim",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/ccxmIcal/cracks/main/strikehub.lua"))()
+        end})
+OtherScriptsTab:AddButton({
+        Name = "Build a Boat Autofarm",
+        Callback = function()
+            loadstring(game:HttpGet(('https://raw.githubusercontent.com/JustAP1ayer/BABFTPLAYERHUB/main/MainBABFTHub.lua'),true))()
+            end})
+OtherScriptsTab:AddButton({
+		Name = "Criminality Script",
+		Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/GlobeReverse/Moonlight/main/Main.lua"))()
+		  end})
+OtherScriptsTab:AddButton({
+        Name = "Town Script",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/main/TownScript", true))()
+        end})
+OtherScriptsTab:AddButton({
+        Name = "PLS Donate Script",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/CF-Trail/tzechco-PlsDonateAutofarmBackup/main/autofarm"))()
+            end})
+--[[
+OtherScriptsTab:AddButton({
+        Name = "button",
+        Callback = function()
+            loadstring(game:HttpGet("link", true))()
+            end})
+OtherScriptsTab:AddButton({
+        Name = "button",
+        Callback = function()
+            loadstring(game:HttpGet("link", true))()
+            end})
+OtherScriptsTab:AddButton({
+        Name = "button",
+        Callback = function()
+            loadstring(game:HttpGet("link", true))()
+            end})			
+]]
+
+-- CREDITSTAB
+
+local Section = Extras:AddSection({
+	Name = "Credits"
+})
+Extras:AddParagraph("Credits to:","Orion libs, for the design. The UI is basically made by them, I just modded some stuff and added some other. I'll be remaking the UI when this version gets updated and when the group reaches 120 members.")
+Extras:AddParagraph("Owner:","GarganSploits, aka Shrek Harvey#7180. DM me if you have any issues with the script or if you found any bug that the script has. Also give your opinion in the server to tell others what you think about my script!")
+Extras:AddParagraph("Join our Discord:","https://discord.com/invite/ZzQxNxqHRy")
+
+
+
+OrionLib:Init()
