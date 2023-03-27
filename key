@@ -24,14 +24,7 @@ function MakeScriptHub()
     loadstring(game:HttpGet(('https://raw.githubusercontent.com/GarganSploits/Garganscript/main/GarganScript')))()
 end
 
-function CorrectKeyNotification()
-    OrionLib:MakeNotification({
-        Name = "Correct Key!",
-        Content = "Your Key was correctly verified!",
-        Image = "rbxassetid://6523858422",
-        Time = 4
-    })
-end
+
 function IncorrectKeyNotification()
     OrionLib:MakeNotification({
         Name = "Incorrect Key!",
@@ -62,7 +55,6 @@ Tab:AddButton({
 	Callback = function()
         if _G.Key == _G.KeyInput then
             MakeScriptHub()
-            CorrectKeyNotification()
             Window:Destroy()
         else
             IncorrectKeyNotification()
