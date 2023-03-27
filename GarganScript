@@ -2,7 +2,7 @@
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 -- Window
-local MainWindow = OrionLib:MakeWindow({Name = "GarganScript || KRNL Version", HidePremium = false, SaveConfig = false, IntroEnabled = false})
+local MainWindow = OrionLib:MakeWindow({Name = "GarganScript || Alpha Version", HidePremium = false, SaveConfig = false, IntroEnabled = false})
 -- Values
 
 
