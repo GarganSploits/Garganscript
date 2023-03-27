@@ -7,7 +7,12 @@ local MainWindow = OrionLib:MakeWindow({Name = "GarganScript || Alpha Version", 
 
 
 -- Functions
-
+ OrionLib:MakeNotification({
+        Name = "Correct Key!",
+        Content = "Your Key was correctly verified!",
+        Image = "rbxassetid://6523858422",
+        Time = 4
+    })
 
 -- Tabs
 local GenScriptsTab = MainWindow:MakeTab({
