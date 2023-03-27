@@ -17,7 +17,7 @@ local MainWindow = OrionLib:MakeWindow({Name = "GarganScript || Alpha Version", 
 -- Tabs
 local GenScriptsTab = MainWindow:MakeTab({
 	Name = "General Scripts",
-	Icon = "rbxassetid://11322093471",
+	Icon = "rbxassetid://3610245072",
 	PremiumOnly = false
 })
 --[[local UnivScriptsTab = MainWindow:MakeTab({
@@ -28,12 +28,12 @@ local GenScriptsTab = MainWindow:MakeTab({
 ]]
 local OtherScriptsTab = MainWindow:MakeTab({
 	Name = "Other Scripts",
-	Icon = "rbxassetid://3057073095",
+	Icon = "rbxassetid://3610247202",
 	PremiumOnly = false
 })
 local Extras = MainWindow:MakeTab({
 	Name = "Extras",
-	Icon = "rbxassetid://10885640695",
+	Icon = "rbxassetid://3944677757",
 	PremiumOnly = false
 })
 
