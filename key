@@ -2,7 +2,7 @@
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local Window = OrionLib:MakeWindow({Name = "Key", HidePremium = false, SaveConfig = false,IntroEnabled = false})
+local Window = OrionLib:MakeWindow({Name = "Key System || GarganScript", HidePremium = false, SaveConfig = false,IntroEnabled = false})
 local Player = game.Players.LocalPlayer
 
 OrionLib:MakeNotification({
@@ -12,13 +12,8 @@ OrionLib:MakeNotification({
 	Time = 4
 })
 
---FIX THIS (GETKEY GETS "NIL" VALUE)
--- FIND ANOTHER WAY TO DO IT
-
-
 _G.Key  = "GARGANSCRIPTRELEASE"
-print(Key)
-_G.KeyInput = "string"
+_G.KeyInput = "input string"
 
 function MakeScriptHub()
     loadstring(game:HttpGet(('https://raw.githubusercontent.com/GarganSploits/Garganscript/main/GarganScript')))()
