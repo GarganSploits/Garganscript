@@ -12,7 +12,7 @@ OrionLib:MakeNotification({
 	Time = 4
 })
 
-_G.Key  = "GARGANSCRIPTRELEASE"
+_G.Key  = "GARGANSCRIPT1WEEK"
 _G.KeyInput = "input string"
 
 function MakeScriptHub()
