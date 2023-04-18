@@ -1,15 +1,14 @@
 -- MAIN HUB --
-
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 -- Window
-local MainWindow = OrionLib:MakeWindow({Name = "GarganScript || Alpha Version", HidePremium = false, SaveConfig = false, IntroEnabled = false})
+local MainWindow = OrionLib:MakeWindow({Name = "GarganScript || Version 1.2", HidePremium = false, SaveConfig = false, IntroEnabled = false})
 -- Values
 local Player = game.Players.LocalPlayer
 
 -- Functions
  OrionLib:MakeNotification({
-        Name = "Correct Key!",
-        Content = "Your Key was correctly verified, "..Player.Name.."!",
+        Name = "Welcome!",
+        Content = "Welcome, "..Player.Name.."! Thanks for using the GarganScript! Hope you have fun with it :)",
         Image = "rbxassetid://6523858422",
         Time = 4
     })
@@ -73,7 +72,7 @@ GenScriptsTab:AddButton({
   	end    
 })
 GenScriptsTab:AddButton({
-	Name = "Bitch Bot V2",
+	Name = "Bitch Bot V2 (Use Synapse)",
 	Callback = function()
 		loadstring(game:HttpGet("https://gist.githubusercontent.com/paradoxw/9b9f673da81e0e721b7162ccd6d37f22/raw/03fa5873071ce8d2f56a863633b487981e01e6de/bitchbot%2520v2", true))()
   	end    
@@ -119,12 +118,13 @@ GenScriptsTab:AddButton({
 		loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
   	end    
 })
---[[GenScriptsTab:AddButton({
-	Name = "",
+GenScriptsTab:AddButton({
+	Name = "Pearl Hub",
 	Callback = function()
-		loadstring(game:HttpGet(""))();
+		loadstring(game:HttpGet("https://ppearl.vercel.app"))();
   	end    
 })
+--[[
 GenScriptsTab:AddButton({
 	Name = "",
 	Callback = function()
@@ -135,81 +135,114 @@ GenScriptsTab:AddButton({
 
 --BUTTONS UNIVERSAL
 UnivScriptsTab:AddButton({
-	Name = "Click TP Script",
+	Name = "3D ESP Universal",
 	Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Ssmmc3/ClickTP/main/ClickTP"))()
-  	end    
-})
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/3D%20ESP%20Universal"))()
+  	end})
 UnivScriptsTab:AddButton({
-	Name = "AntiLag",
+	Name = "Anti AFK Gui",
 	Callback = function()
-        loadstring(game:HttpGet("https://pastebin.com/raw/a0J6nLHZ", true))()
-			  
-  	end    
-})
-UnivScriptsTab:AddButton({
-	Name = "Anti AFK",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/GenScripts/Antiafk", true))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/AntiAFK", true))()
 		end})
 UnivScriptsTab:AddButton({
-	Name = "Universal ESP Boxes",
+	Name = "Auto Clicker",
 	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/GenScripts/UniversalBoxEsp", true))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/AutoClicker", true))()
 		end})
 UnivScriptsTab:AddButton({
-	Name = "Aimbot",
+	Name = "Auto Trash Talk (Keybind V)",
 	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/GenScripts/UnivAimbot", true))()
-		end})
-UnivScriptsTab:AddButton({
-	Name = "Fly",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/GenScripts/UnivFly", true))()
-		end})
-UnivScriptsTab:AddButton({
-	Name = "Gravity Changer",
-	Callback = function()
-		OrionLib:MakeNotification({
-			Name = "Toggle",
-			Content = "Press 'e' to toggle the Gravity change!",
-			Image = "rbxassetid://6523858422",
-			Time = 3
-		})
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/GenScripts/UnivGravityChanger", true))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/AutoTrashTalk", true))()
 		end})
 UnivScriptsTab:AddButton({
 	Name = "BTools",
 	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/GenScripts/UnivBtools", true))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/BTools", true))()
 		end})
 UnivScriptsTab:AddButton({
-	Name = "Anti AFK v2",
+	Name = "Blockhead",
 	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/GenScripts/UnivAntiAfkv2", true))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/Blockhead", true))()
 		end})
 UnivScriptsTab:AddButton({
+	Name = "Chat Bypasser",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/5Picklebarry/Scripts/main/ForRealiumBypasserKeyLess.lua", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "ESP",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/ESP", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "Float Character",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/FloatCharacter", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "Fly",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/Fly", true))()
+		end})
+UnivScriptsTab:AddSlider({
+	Name = "Gravity Switcher",
+	Min = 0,
+	Max = 400,
+	Default = 198,
+	Color = Color3.fromRGB(128,0,128),
+	Increment = 2,
+	ValueName = "",
+	Callback = function(GravValue)
+		workspace.Gravity = GravValue
+	end    
+})
+UnivScriptsTab:AddButton({
+	Name = "Highlight Player",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/HighlightPlayer", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "Hitbox Expander",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/HitboxExpander", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "Infinite Jump",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/InfJump", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "Pedro.exe (Translator)",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/Pedro.exe(Translator)", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "Player Logs",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/PlayerLogs", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "Remove Arms",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/RemoveArms", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "Silent Aim",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/SilentAim", true))()
+		end})
+UnivScriptsTab:AddButton({
+	Name = "Universal ESP + Aimbot",
+	Callback = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/UnivScriptsTab/UnivEsp%2BAimbot", true))()
+		end})
+--[[UnivScriptsTab:AddButton({
 	Name = "button",
 	Callback = function()
 		loadstring(game:HttpGet("link", true))()
 		end})
-UnivScriptsTab:AddButton({
-	Name = "button",
-	Callback = function()
-		loadstring(game:HttpGet("link", true))()
-		end})
-UnivScriptsTab:AddButton({
-	Name = "button",
-	Callback = function()
-		loadstring(game:HttpGet("link", true))()
-		end})
-UnivScriptsTab:AddButton({
-	Name = "button",
-	Callback = function()
-		loadstring(game:HttpGet("link", true))()
-		end})
-
---BUTTONS FOR OTHER
+]]
+		--BUTTONS FOR OTHER
 
 OtherScriptsTab:AddButton({
 		Name = "Homework Printing Sim Autofinish",
@@ -262,14 +295,32 @@ OtherScriptsTab:AddButton({
         Callback = function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/ToraIsMe/ToraIsMe/main/0raise", true))()
             end})
-
-			
---[[
 OtherScriptsTab:AddButton({
-        Name = "button",
+        Name = "Naval Warfare Script",
         Callback = function()
-            loadstring(game:HttpGet("link", true))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/KweeperDotJS/Aentrix/main/main.lua"))()
             end})
+OtherScriptsTab:AddButton({
+        Name = "D-DAY Silent Aim",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/main/DdaySilentAim", true))()
+            end})
+OtherScriptsTab:AddButton({
+        Name = "Fly Race Autofarm Script",
+        Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/GarganSploits/Garganscript/main/flyracescript", true))()
+            end})
+OtherScriptsTab:AddButton({
+        Name = "DOORS Script",
+        Callback = function()
+            loadstring(game:HttpGet(("https://raw.githubusercontent.com/mstudio45/poopdoors_edited/main/poopdoors_edited.lua"),true))()
+            end})
+OtherScriptsTab:AddButton({
+        Name = "Flag Wars Script",
+        Callback = function()
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/FreeRobloxScripts/Levis-HUB/main/mdfhg'))()
+            end})
+--[[
 OtherScriptsTab:AddButton({
         Name = "button",
         Callback = function()
