@@ -1,0 +1,8 @@
+local function OnPlayerAdded(player)
+    print(player, "Has joined the game")
+    end
+    local function PlayerRemoved(plr)
+       print(plr, "Has left the game") 
+    end
+    game.Players.PlayerAdded:Connect(OnPlayerAdded)
+    game.Players.ChildRemoved:Connect(PlayerRemoved)
