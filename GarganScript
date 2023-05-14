@@ -319,6 +319,11 @@ OtherScriptsTab:AddButton({
         Name = "Flag Wars Script",
         Callback = function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/FreeRobloxScripts/Levis-HUB/main/mdfhg'))()
+            end
+OtherScriptsTab:AddButton({
+        Name = "Animal Simulator Autofarm",
+        Callback = function()
+            loadstring(game:HttpGet(('https://raw.githubusercontent.com/reasons240/animalsimulator/main/autofarm'),true))()
             end})
 --[[
 OtherScriptsTab:AddButton({
