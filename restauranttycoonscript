@@ -1,0 +1,341 @@
+repeat task.wait() until game:IsLoaded()
+
+for _,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
+    v:Disable()
+end
+
+local Vision = loadstring(game:HttpGet('https://raw.githubusercontent.com/Loco-CTO/UI-Library/main/VisionLibV2/source.lua'))()
+local Wrkspc = game:GetService("Workspace")
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+local Humanoid = Character:FindFirstChild("Humanoid")
+local HRP = Character:FindFirstChild("HumanoidRootPart")
+Player.CharacterAdded:Connect(function()
+    repeat task.wait()
+        Player = Players.LocalPlayer
+        Character = Player.Character or Player.CharacterAdded:Wait()
+        Humanoid = Character:FindFirstChild("Humanoid")
+        HRP = Character:FindFirstChild("HumanoidRootPart")
+    until Player ~= nil and Character ~= nil and Humanoid ~= nil and HRP ~= nil
+end)
+local Window = Vision:Create({Name = "clock.lua", Footer = "by tokken?#6694", ToggleKey = Enum.KeyCode.RightShift,})
+
+task.wait(5)
+
+repeat task.wait()
+    for _,v in pairs(game:GetService("Workspace").Tycoons:GetChildren()) do
+        if tostring(v.Player.Value) == tostring(Player.Name) then
+            getgenv().PlayerPlot = v
+        end
+    end
+    if not getgenv().PlayerPlot then
+    	Vision:Notify({Name = "Waiting...", Text = ("Waiting for tycoon to load..."), Icon = "rbxassetid://11401835376"})
+    	task.wait(2)
+    else
+    	break
+    end
+until getgenv().PlayerPlot
+
+if getgenv().PlayerPlot.Stats.IsLoading.Value then
+    repeat task.wait() until not getgenv().PlayerPlot.Stats.IsLoading.Value
+end
+
+-- Config
+
+getgenv().settingsTable = {
+    billstoggle = false,
+    dishestoggle = false,
+    localplayerspeed = 16,
+    localplayerjump = 50,
+    localplayergravity = 196.2,
+    infjump = false,
+    autocook = false,
+    takeorders = false,
+    deliverfood = false,
+    deliverdrinks = false,
+    seatcustomers = false,
+}
+
+function loadSettings()
+	local HttpService = game:GetService("HttpService")
+	if (readfile and isfile and isfile("clock.lua/RestaurantTycoon2.txt")) then
+		getgenv().settingsTable = HttpService:JSONDecode(readfile("clock.lua/RestaurantTycoon2.txt"));
+		print("Settings loaded.")
+    else
+        print("Unable to load settings.")
+    end
+end
+
+function saveSettings()
+    local json
+    local HttpService = game:GetService("HttpService")
+    if writefile then
+        json = HttpService:JSONEncode(getgenv().settingsTable)
+        makefolder("clock.lua")
+        writefile("clock.lua/RestaurantTycoon2.txt", json)
+    else
+        print("Sorry, your exploit does not support writefile.")
+    end
+end
+
+loadSettings()
+
+-- Functions
+
+function SeatCustomers()
+    for _,v in ipairs(getgenv().PlayerPlot.Customers:GetChildren()) do task.wait(0.05)
+        groupnumber = v.Name
+        if v:FindFirstChild("Data") then
+            if v.Data.SeatedAt ~= "" or v.Data.SeatedAt ~= nil then
+                if v:FindFirstChild("Customers") then
+                    for _,b in ipairs(v.Customers:GetChildren()) do task.wait(0.05)
+                        customernumber3 = b.Name
+                        for _,p in ipairs(getgenv().PlayerPlot.Items.OftenFiltered.Surface:GetChildren()) do task.wait(0.05)
+                            if p:FindFirstChild("InUse") then
+                                if p.InUse.Value == false then
+                                    local ohTable2 = {["name"] = "SendToTable",["obj"] = p,["group"] = groupnumber,["tycoon"] = workspace.Tycoons.Tycoon,["customer"] = customernumber3}
+                                    game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(getgenv().PlayerPlot, ohTable2)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end
+
+function DeliverDrinks()
+    for _,v in ipairs(getgenv().PlayerPlot.Customers:GetChildren()) do task.wait(0.05)
+        tablenumber2 = v.Name
+        if v:FindFirstChild("Customers") then
+            for o,b in ipairs(v.Customers:GetChildren()) do task.wait(0.05)
+                customernumber2 = b.Name
+                if b:FindFirstChild("MealChoice") then
+                    customerdrink = b:FindFirstChild("MealChoice").Value
+                else
+                    break
+                end
+                if getgenv().PlayerPlot.Items.OftenFiltered.Kitchen:FindFirstChild("68") then
+                    ohInstance2 = getgenv().PlayerPlot.Items.OftenFiltered.Kitchen:FindFirstChild("68")
+                else
+                    break
+                end
+                game:GetService("ReplicatedStorage").Events.RequestGrab:InvokeServer("Fridge", ohInstance2, getgenv().PlayerPlot)
+                for f,c in ipairs(getgenv().PlayerPlot.Resources.Drinks:GetChildren()) do
+                    if not b:FindFirstChild(customerdrink) and customerdrink and customerdrink ~= "" and c.Name == customerdrink then
+                        local args3 = {
+                            ["models"] = {},
+                            ["name"] = "ManageFood",
+                            ["model"] = c,
+                            ["customer"] = customernumber2,
+                            ["tycoon"] = getgenv().PlayerPlot,
+                            ["group"] = tablenumber2
+                        }
+                        game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(getgenv().PlayerPlot, args3)
+                    end
+                end
+            end
+        end
+    end
+end
+
+function DeliverFood()
+    for _,v in ipairs(getgenv().PlayerPlot.Customers:GetChildren()) do task.wait(0.05)
+        tablenumber = v.Name
+        if v:FindFirstChild("Customers") then
+            for o,b in ipairs(v.Customers:GetChildren()) do task.wait(0.05)
+                customernumber = b.Name
+                if b:FindFirstChild("MealChoice") then
+                    customermeal = b:FindFirstChild("MealChoice").Value
+                else
+                    break
+                end
+                for e,g in ipairs(getgenv().PlayerPlot.Items.OftenFiltered.Surface:GetChildren()) do task.wait(0.05)
+                    if customermeal and customermeal ~= "" and g:FindFirstChild("OrderedFoods") and g.OrderedFoods:FindFirstChild(customermeal) then
+                        args2 = {
+                            ["models"] = {[1] = g.OrderedFoods[customermeal]},
+                            ["name"] = "ManageFood",
+                            ["model"] = g.OrderedFoods[customermeal],
+                            ["customer"] = customernumber,
+                            ["tycoon"] = getgenv().PlayerPlot,
+                            ["group"] = tablenumber}
+                        game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(getgenv().PlayerPlot, args2)
+                    end
+                end
+            end
+        end
+    end
+end
+
+function TakeOrders()
+    for _,v in ipairs(getgenv().PlayerPlot.Customers:GetChildren()) do task.wait(0.05)
+        local tablenumber = v.Name
+        if v:FindFirstChild("Customers") then
+            for _,b in ipairs(v.Customers:GetChildren()) do task.wait(0.05)
+                local customernumber = b.Name
+                local args = {["customer"] = customernumber,["tycoon"] = getgenv().PlayerPlot,["name"] = "ManageCustomers",["group"] = tablenumber}
+                game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(getgenv().PlayerPlot, args)
+            end
+        end
+    end
+end
+
+function GetBills() 
+    for _,v in ipairs(getgenv().PlayerPlot.Items.OftenFiltered.Surface:GetChildren()) do
+        if v:FindFirstChild("Bill") then
+            local Surfs = {["name"] = "CollectBill", ["model"] = v}
+            game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(getgenv().PlayerPlot, Surfs)
+        end
+    end
+    for _,v in ipairs(getgenv().PlayerPlot.Items.AlwaysFiltered.Furniture:GetChildren()) do
+        if v:FindFirstChild("Jar") then
+            if v.Jar.BillboardGui.Frame.Amt.Text ~= "0 Cash" then
+                game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(getgenv().PlayerPlot, {["name"] = "CollectTip"})
+            end
+        end
+    end
+    for _,v in pairs(game:GetService("Workspace").DropFolder:GetChildren()) do
+        if v:FindFirstChild("TouchInterest") then
+            firetouchinterest(HRP, v, 0)
+            task.wait(0.25)
+            firetouchinterest(HRP, v, 1)
+        end
+    end
+end
+
+function CollectDishes() 
+    for _,v in ipairs(getgenv().PlayerPlot.Items.OftenFiltered.Surface:GetChildren()) do
+        if v:FindFirstChild("Trash") then
+            local Surfs = {["name"] = "ClearTrash", ["model"] = v}
+            game:GetService("ReplicatedStorage").Events.ClientTycoonInput:FireServer(getgenv().PlayerPlot, Surfs)
+        end
+    end
+end
+
+if not infjumploaded then
+    game:GetService("UserInputService").JumpRequest:Connect(function()
+        infjumploaded = true
+    	if getgenv().settingsTable.infjump == true then
+            Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+    	end
+    end)
+end
+
+-- GUI
+
+local Maintab = Window:Tab({Name = "Main",Icon = "rbxassetid://11396131982",Color = Color3.new(0, 1, 0.133333)})
+local LocalPlayer = Window:Tab({Name = "LocalPlayer",Icon = "rbxassetid://2795572800",Color = Color3.new(0, 0.015686, 1)})
+local Misctab = Window:Tab({Name = "Misc",Icon = "rbxassetid://9265672808",Color = Color3.new(0.533333, 0.533333, 0.533333)})
+
+local Main = Maintab:Section({Name = "Automate Your Tycoon!"})
+local LocalPlayer = LocalPlayer:Section({Name = "LocalPlayer"})
+local Misc = Misctab:Section({Name = "Misc"})
+
+-- Main
+
+Main:Toggle({Name = "Take Orders Automatically",Default = getgenv().settingsTable.takeorders,Callback = function(Value)
+    getgenv().settingsTable.takeorders = Value
+    saveSettings()
+    while getgenv().settingsTable.takeorders do task.wait()
+        TakeOrders()
+    end
+end})
+
+Main:Toggle({Name = "Deliver Food Automatically",Default = getgenv().settingsTable.deliverfood,Callback = function(Value)
+    getgenv().settingsTable.deliverfood = Value
+    saveSettings()
+    while getgenv().settingsTable.deliverfood do task.wait()
+        DeliverFood()
+    end
+end})
+
+Main:Toggle({Name = "Deliver Drinks Automatically",Default = getgenv().settingsTable.deliverdrinks,Callback = function(Value)
+    getgenv().settingsTable.deliverdrinks = Value
+    saveSettings()
+    while getgenv().settingsTable.deliverdrinks do task.wait()
+        DeliverDrinks()
+    end
+end})
+
+Main:Toggle({Name = "Seat Customers Automatically",Default = getgenv().settingsTable.seatcustomers,Callback = function(Value)
+    getgenv().settingsTable.seatcustomers = Value
+    saveSettings()
+    while getgenv().settingsTable.seatcustomers do task.wait()
+        SeatCustomers()
+    end
+end})
+
+Main:Toggle({Name = "Collect Bills,Tips,Drops Automatically",Default = getgenv().settingsTable.billstoggle,Callback = function(Value)
+    getgenv().settingsTable.billstoggle = Value
+    saveSettings()
+    while getgenv().settingsTable.billstoggle do task.wait()
+        GetBills()
+    end
+end})
+
+Main:Toggle({Name = "Collect Dishes Automatically",Default = getgenv().settingsTable.dishestoggle,Callback = function(Value)
+    getgenv().settingsTable.dishestoggle = Value
+    saveSettings()
+    while getgenv().settingsTable.dishestoggle do task.wait()
+        CollectDishes()
+    end
+end})
+
+-- LocalPlayer
+
+LocalPlayer:Slider({Name = "Walk Speed",Max = 100, Min = 0, Default = getgenv().settingsTable.localplayerspeed or 16,Callback = function(Value)
+    Character.Humanoid.WalkSpeed = Value
+    getgenv().settingsTable.localplayerspeed = Value
+end})
+
+LocalPlayer:Slider({Name = "Jump Power",Max = 100, Min = 0, Default = getgenv().settingsTable.localplayerjump or 50,Callback = function(Value)
+    Character.Humanoid.JumpPower = Value
+    getgenv().settingsTable.localplayerjump = Value
+end})
+
+LocalPlayer:Slider({Name = "Gravity",Max = 196.2, Min = 0, Default = getgenv().settingsTable.localplayergravity or 196.2,Callback = function(Value)
+    Wrkspc.Gravity = Value
+    getgenv().settingsTable.localplayergravity = Value
+    saveSettings()
+end})
+
+LocalPlayer:Toggle({Name = "Toggle Infinite Jump",Default = getgenv().settingsTable.infjump,Callback = function(Value)
+    getgenv().settingsTable.infjump = Value
+    saveSettings()
+end})
+
+-- Misc
+
+Misc:Button({Name = "Fps Booster",Interact = "Button",Callback = function()
+    game.Lighting.GlobalShadows = false
+    game.Lighting.FogEnd = (9e9 * 9e9)
+    sethiddenproperty(game.Lighting, "Technology", 0)
+    settings().Rendering.QualityLevel = "Automatic"
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") or v:IsA("UnionOperation") or v:IsA("WedgePart") then
+            v.Material = "Plastic"
+            v.Reflectance = 0
+        elseif v:IsA("Decal") or v:IsA("Texture") then
+            v:Remove()
+        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+            v.Lifetime = NumberRange.new(0)
+        elseif v:IsA("Explosion") then
+            v.BlastPressure = 1
+            v.BlastRadius = 1
+        elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") then
+            v:Remove()
+        elseif v:IsA("MeshPart") then
+            v.Material = "Plastic"
+            v.Reflectance = 0
+            v.TextureID = 0
+        elseif v:IsA("BlurEffect") or v:IsA("SunRaysEffect") or v:IsA("ColorCorrectionEffect") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") then
+            v.Enabled = false
+        end
+    end
+end})
+
+Misc:Button({Name = "Destroy UI", Callback = function()
+	Vision:Destroy()
+end})
