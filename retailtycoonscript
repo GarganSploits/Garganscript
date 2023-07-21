@@ -1,0 +1,769 @@
+repeat task.wait() until game:IsLoaded()
+
+for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
+    v:Disable()
+end
+
+local Vision = loadstring(game:HttpGet('https://raw.githubusercontent.com/Loco-CTO/UI-Library/main/VisionLibV2/source.lua'))()
+local Wrkspc = game:GetService("Workspace")
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local Character = Player.Character or Player.CharacterAdded:Wait()
+local Humanoid = Character:FindFirstChild("Humanoid")
+local HRP = Character:FindFirstChild("HumanoidRootPart")
+plotnum = tostring(getrenv()._G.Plot)
+Player.CharacterAdded:Connect(function()
+    repeat task.wait()
+        Player = Players.LocalPlayer
+        Character = Player.Character or Player.CharacterAdded:Wait()
+        Humanoid = Character:FindFirstChild("Humanoid")
+        HRP = Character:FindFirstChild("HumanoidRootPart")
+    until Player ~= nil and Character ~= nil and Humanoid ~= nil and HRP ~= nil
+end)
+local Window = Vision:Create({Name = "clock.lua", Footer = "by tokken?#6694", ToggleKey = Enum.KeyCode.RightShift,})
+
+while string.sub(plotnum, 1, 5) ~= "Plot_" do
+    for i = 1,5 do
+        plotnum = tostring(getrenv()._G.Plot)
+        task.wait(0.1)
+        if string.sub(plotnum, 1, 5) == "Plot_" then break end
+    end
+    Vision:Notify({Name = "Waiting...", Text = ("Waiting for plotnum to load..."), Icon = "rbxassetid://11401835376"})
+    task.wait(0.5)
+end
+
+local isevent = false
+
+-- Config
+
+getgenv().settingsTable = {
+	farmevent = false,
+    whattobuy = "Canned Food",
+    instantdelivery = false,
+    howmuchtobuy = 20,
+    autobuytoggle = false,
+    autocashier = false,
+    autocleantoggle = false,
+    autoarresttoggle = false,
+    autorestocktoggle = false,
+    viewrestock = false,
+    gokartlaps = 100,
+    gokarttime = 4,
+    localplayerspeed = 16,
+    localplayerjump = 50,
+    localplayergravity = 196.2,
+    infjump = false,
+    webhooksendtoggle = false,
+    webhooklink = "",
+    webhooktimetosend = 30,
+    rainbowmode = false,
+    distancedriven = false,
+    antisittoggle = false
+}
+
+function loadSettings()
+	local HttpService = game:GetService("HttpService")
+	if (readfile and isfile and isfile("clock.lua/RetailTycoon2.txt")) then
+		getgenv().settingsTable = HttpService:JSONDecode(readfile("clock.lua/RetailTycoon2.txt"));
+		print("Settings loaded.")
+    else
+        print("Unable to load settings.")
+    end
+end
+
+function saveSettings()
+    local json
+    local HttpService = game:GetService("HttpService")
+    if writefile then
+        json = HttpService:JSONEncode(getgenv().settingsTable)
+        makefolder("clock.lua")
+        writefile("clock.lua/RetailTycoon2.txt", json)
+    else
+        print("Sorry, your exploit does not support writefile.")
+    end
+end
+
+loadSettings()
+
+-- Functions
+
+function refplayertable()
+    PlayerTable = {}
+    for i,v in pairs(Players:GetPlayers()) do
+        if v.Name ~= Player.Name then
+            table.insert(PlayerTable,v.Name)
+        end
+    end
+end
+
+function annoyfunction()
+    if Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) == nil then
+        game:GetService("ReplicatedStorage").Remotes.SpawnVehicle:InvokeServer(1, Character.HumanoidRootPart.CFrame)
+        task.wait(1)
+        main = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass
+    else
+        main = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass
+    end
+    local goal = Players[target]
+    repeat task.wait() until goal.Character
+    main.CFrame = (goal.Character.LowerTorso.CFrame * CFrame.Angles(math.random(0.5, 2),math.random(0.5, 2),math.random(0.5, 2)))
+    Character.HumanoidRootPart.CFrame = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame
+    fireproximityprompt(Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].DriveSeat.Prompt, 10)
+    if getgenv().settingsTable.annoytoggle == false then
+        for i = 1,20 do task.wait()
+            main.CFrame = main.CFrame
+            task.wait(0.05)
+        end
+    end
+end
+
+function startgokart()
+
+    repeat task.wait()
+        Character.HumanoidRootPart.CFrame = Wrkspc.Map.Landmarks.GokartTrack.Scripted.Queue.Region.CFrame + Vector3.new(0, 2.5, 0) 
+    until Wrkspc.Map.Landmarks.GokartTrack.Scripted.Queue.Region.BillboardGui.Countdown.Text == "Get ready!" or Wrkspc.Map.Landmarks.GokartTrack.Scripted.Queue.Region.BillboardGui.Countdown.Text == "Race in progress"
+    repeat task.wait() until Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name)
+    Character.HumanoidRootPart.CFrame = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame
+    task.wait(0.5)
+    repeat
+        task.wait(0.045)
+        fireproximityprompt(Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].DriveSeat.Prompt, 10)
+    until Character.Humanoid.Sit == true
+    
+    local TweenService = game:GetService("TweenService")
+    for spots = 1,24 do
+        Wrkspc.Map.Landmarks.GokartTrack.Scripted.Checkpoints[spots].Transparency = 0.75
+        Wrkspc.Map.Landmarks.GokartTrack.Scripted.Checkpoints[spots].Reflectance = 10
+    end
+    
+    repeat task.wait(0.1) until Wrkspc.Map.Landmarks.GokartTrack.Scripted.LapCounter.SurfaceGui.TrackNumber.Text == "GO"
+    game.Workspace.Gravity = 0
+    for i = 1,getgenv().settingsTable.gokartlaps or 4 do
+        for spots = 1,24 do
+            local main = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass
+            local goal = Wrkspc.Map.Landmarks.GokartTrack.Scripted.Checkpoints[spots]
+            TweenGoKart = TweenInfo.new(getgenv().settingsTable.gokarttime or 0.1)
+            local tween = TweenService:Create(main, TweenGoKart, {CFrame = CFrame.new(goal.Position + Vector3.new(0, -2, 0))}):Play()
+            task.wait(getgenv().settingsTable.gokarttime or 0.1)
+        end
+        local main = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass
+        local goal2 = Wrkspc.Map.Landmarks.GokartTrack.Scripted.Checkpoints["1"]
+        TweenGoKart = TweenInfo.new(getgenv().settingsTable.gokarttime or 0.1)
+        local tween = TweenService:Create(main, TweenGoKart, {CFrame = CFrame.new(goal2.Position + Vector3.new(0, -2, 0))}):Play()
+        task.wait(getgenv().settingsTable.gokarttime or 0.1)
+    end
+    game.Workspace.Gravity = 196.2
+end
+
+function stealgokart()
+    local oldcframe = Character.HumanoidRootPart.CFrame
+    if Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) then
+        
+        if Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Config.Type.Value == "Gokart" then
+            
+            Character.HumanoidRootPart.CFrame = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame
+            fireproximityprompt(Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].DriveSeat.Prompt, 500)
+            task.wait(0.5)
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame = oldcframe + Vector3.new(0, 1, 0)
+        else
+            
+            repeat task.wait()
+                Character.HumanoidRootPart.CFrame = Wrkspc.Map.Landmarks.GokartTrack.Scripted.Queue.Region.CFrame + Vector3.new(0, 2.5, 0)
+            until Wrkspc.Map.Landmarks.GokartTrack.Scripted.Queue.Region.BillboardGui.Countdown.Text == "Get ready!" or Wrkspc.Map.Landmarks.GokartTrack.Scripted.Queue.Region.BillboardGui.Countdown.Text == "Race in progress"
+            repeat task.wait()
+                Character.HumanoidRootPart.CFrame = Wrkspc.Map.Landmarks.GokartTrack.Scripted.Queue.Region.CFrame + Vector3.new(0, 2.5, 0)
+            until Wrkspc.Map.Landmarks.GokartTrack.Scripted.LapCounter.SurfaceGui.TrackNumber.Text == "GO"
+            task.wait(2.5)
+            
+            Character.HumanoidRootPart.CFrame = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame
+            fireproximityprompt(Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].DriveSeat.Prompt, 500)
+            task.wait(0.5)
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame = oldcframe + Vector3.new(0, 1, 0)
+        end
+    else
+        
+        repeat task.wait()
+            Character.HumanoidRootPart.CFrame = Wrkspc.Map.Landmarks.GokartTrack.Scripted.Queue.Region.CFrame + Vector3.new(0, 2.5, 0)
+        until Wrkspc.Map.Landmarks.GokartTrack.Scripted.Queue.Region.BillboardGui.Countdown.Text == "Get ready!" or Wrkspc.Map.Landmarks.GokartTrack.Scripted.Queue.Region.BillboardGui.Countdown.Text == "Race in progress"
+        repeat task.wait()
+            Character.HumanoidRootPart.CFrame = Wrkspc.Map.Landmarks.GokartTrack.Scripted.Queue.Region.CFrame + Vector3.new(0, 2.5, 0)
+        until Wrkspc.Map.Landmarks.GokartTrack.Scripted.LapCounter.SurfaceGui.TrackNumber.Text == "GO"
+        task.wait(2.5)
+        
+        Character.HumanoidRootPart.CFrame = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame
+        fireproximityprompt(Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].DriveSeat.Prompt, 500)
+        task.wait(0.5)
+        Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame = oldcframe + Vector3.new(0, 1, 0)
+    end
+end
+
+function teleporting(placename)
+    for i = 1,5 do
+        if placename == "alanauto" then
+            Character.HumanoidRootPart.CFrame = CFrame.new(1838.14722, 4.99999809, -1951.10352, -0.305810153, 3.88239165e-08, 0.952092528, 9.0736016e-08, 1, -1.1633241e-08, -0.952092528, 8.28315194e-08, -0.305810153)
+        elseif placename == "gokarttrack" then
+            Character.HumanoidRootPart.CFrame = CFrame.new(801.796448, -83.4960022, -1726.03113, 0.141548485, -4.17203028e-09, 0.989931345, -2.72365908e-10, 1, 4.25340962e-09, -0.989931345, -8.71687167e-10, 0.141548485)
+        elseif placename == "loadingdock" then
+            Character.HumanoidRootPart.CFrame = CFrame.new(1803.52771, -83.5000229, -1891.86597, 0.348236054, -1.47249892e-08, -0.937406898, 2.55844623e-10, 1, -1.56131712e-08, 0.937406898, 5.19723864e-09, 0.348236054)
+        elseif placename == "ownplot" then
+            Character.HumanoidRootPart.CFrame = Wrkspc.Map.Plots[tostring(plotnum)].RoadModule.Center.CFrame + Vector3.new(0,2.5,0)
+        elseif placename == "lighthouse" then
+            Character.HumanoidRootPart.CFrame = CFrame.new(854.89325, 201.499954, -3092.53101, -0.546744287, -6.39081037e-08, -0.837299645, 1.27105371e-09, 1, -7.71564288e-08, 0.837299645, -4.32490879e-08, -0.546744287)
+        end 
+    end
+end
+
+function carteleporting(placename)
+    if not Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) then
+        game:GetService("ReplicatedStorage").Remotes.SpawnVehicle:InvokeServer(1, Character.HumanoidRootPart.CFrame)
+        wait(2)
+        Character.HumanoidRootPart.CFrame = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame
+        task.wait(0.5)
+        fireproximityprompt(Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].DriveSeat.Prompt, 10)
+    else
+        Character.HumanoidRootPart.CFrame = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame
+        wait(2)
+        fireproximityprompt(Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].DriveSeat.Prompt, 10)
+    end
+    for i = 1,5 do
+        if placename == "alanauto" then
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame = CFrame.new(1838.14722, 4.99999809, -1951.10352, -0.305810153, 3.88239165e-08, 0.952092528, 9.0736016e-08, 1, -1.1633241e-08, -0.952092528, 8.28315194e-08, -0.305810153)
+        elseif placename == "gokarttrack" then
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame = CFrame.new(801.796448, -83.4960022, -1726.03113, 0.141548485, -4.17203028e-09, 0.989931345, -2.72365908e-10, 1, 4.25340962e-09, -0.989931345, -8.71687167e-10, 0.141548485)
+        elseif placename == "loadingdock" then
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame = CFrame.new(1803.52771, -83.5000229, -1891.86597, 0.348236054, -1.47249892e-08, -0.937406898, 2.55844623e-10, 1, -1.56131712e-08, 0.937406898, 5.19723864e-09, 0.348236054)
+        elseif placename == "ownplot" then
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame = Wrkspc.Map.Plots[tostring(plotnum)].RoadModule.Center.CFrame + Vector3.new(0,2.5,0)
+        elseif placename == "lighthouse" then
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame = CFrame.new(854.89325, 201.499954, -3092.53101, -0.546744287, -6.39081037e-08, -0.837299645, 1.27105371e-09, 1, -7.71564288e-08, 0.837299645, -4.32490879e-08, -0.546744287)
+        end 
+    end
+end
+
+function tptoregisters()
+    if Wrkspc.Map.Plots[plotnum].Objects:FindFirstChild("Floor_1") then
+        for i,v in pairs(Wrkspc.Map.Plots[plotnum].Objects["Floor_1"]:GetChildren()) do
+            if v.Name == "BasicCheckout" or v.Name == "DeluxeCheckout" then
+                if v.Object.Light.BrickColor == BrickColor.new("Really red") then
+                    Character.HumanoidRootPart.CFrame = v.Object.CashierArea.CFrame + Vector3.new(0, 2.65, 0)
+                    local elapsedTime = 0;
+                    repeat
+                        if v:FindFirstChild("Object") then
+                            if v.Object.Light.BrickColor == BrickColor.new("Lime green") then
+                                break;
+                            end
+                        end
+                       elapsedTime += task.wait()
+                    until elapsedTime > 7.5
+                end
+            end
+        end
+    end
+    if Wrkspc.Map.Plots[plotnum].Objects:FindFirstChild("Floor_2") then
+        for i,v in pairs(Wrkspc.Map.Plots[plotnum].Objects["Floor_2"]:GetChildren()) do
+            if v.Name == "BasicCheckout" or v.Name == "DeluxeCheckout" then
+                if v.Object.Light.BrickColor == BrickColor.new("Really red") then
+                    Character.HumanoidRootPart.CFrame = v.Object.CashierArea.CFrame + Vector3.new(0, 2.65, 0)
+                    local elapsedTime = 0;
+                    repeat
+                        if v:FindFirstChild("Object") then
+                            if v.Object.Light.BrickColor == BrickColor.new("Lime green") then
+                                break;
+                            end
+                        end
+                       elapsedTime += task.wait()
+                    until elapsedTime > 7.5
+                end
+            end
+        end
+    end
+end
+
+function cleanthestore()
+    local origpos = Character.HumanoidRootPart.CFrame
+    for i,v in ipairs(Wrkspc.Map.Plots[plotnum].Trash:GetChildren()) do
+        while v:FindFirstChild("PromptPart") and not robbersinprogress do task.wait()
+            cleaninginprogress = true
+            CleanelapsedTime = 0
+            repeat
+                if v:FindFirstChild("PromptPart") then
+                    Character.HumanoidRootPart.CFrame = v:FindFirstChild("PromptPart").CFrame + Vector3.new(0, 8.5, 0)
+                end
+                if v:FindFirstChild("PromptPart") then
+                    fireproximityprompt(v:FindFirstChild("PromptPart").ProximityPrompt, 10)
+                end
+                if not v:FindFirstChild("PromptPart") then
+                	break
+                end
+               CleanelapsedTime = CleanelapsedTime + task.wait()
+            until CleanelapsedTime > 5
+            cleaninginprogress = false
+        end
+    end
+    Character.HumanoidRootPart.CFrame = origpos
+end
+
+function arrestrobbers()
+    local origpos2 = Character.HumanoidRootPart.CFrame
+    for i,v in ipairs(Wrkspc.NPCModel:GetChildren()) do
+        if v:FindFirstChild("ArrestPrompt") then
+            while v.ArrestPrompt.Enabled and not cleaninginprogress do task.wait()
+                robbersinprogress = true
+                ArrestelapsedTime = 0
+                repeat
+                    if v:FindFirstChild("HumanoidRootPart") then
+                        Character.HumanoidRootPart.CFrame = v:FindFirstChild("HumanoidRootPart").CFrame + Vector3.new(0, 8.5, 0)
+                    end
+                    if v:FindFirstChild("ArrestPrompt") then
+                        fireproximityprompt(v:FindFirstChild("ArrestPrompt"), 100)
+                    end
+                    if v:FindFirstChild("ArrestPrompt") then
+                        if v.ArrestPrompt.Enabled == false then
+                            break
+                        end
+                    end
+                   ArrestelapsedTime = ArrestelapsedTime + task.wait()
+                until ArrestelapsedTime > 5
+                robbersinprogress = false
+            end
+        end
+    end
+    Character.HumanoidRootPart.CFrame = origpos2
+end
+
+function antisit()
+    if Character.Humanoid.Sit == true then
+        Character.Humanoid.Sit = false
+    end
+end
+
+if getgenv().settingsTable.infjump == nil then
+    game:GetService("UserInputService").JumpRequest:Connect(function()
+    	if getgenv().settingsTable.infjump == true then
+            Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+    	end
+    end)
+end
+
+function autorestock()
+    if not isrestockrunning then
+        isrestockrunning = true
+        for _, v in next, game:GetService("Workspace").Map.Plots[plotnum].Objects:GetChildren() do task.wait()
+            if v.Name == "Floor_1" then
+                for i,v in pairs(v:GetChildren()) do task.wait()
+                    if v:FindFirstChild("Sellable") then
+                        game:GetService("ReplicatedStorage").Remotes.StockShelfFunction:InvokeServer(v, v.Sellable.Value)
+                    end
+                end
+            end
+            
+            if v.Name == "Floor_2" then
+                for i,v in pairs(v:GetChildren()) do task.wait()
+                    if v:FindFirstChild("Sellable") then
+                        game:GetService("ReplicatedStorage").Remotes.StockShelfFunction:InvokeServer(v, v.Sellable.Value)
+                    end
+                end
+            end
+        end
+        isrestockrunning = false
+    end
+end
+
+if isevent == true then
+    function collectEvent()
+        local poses = Wrkspc.Map.Holiday.Markers:GetChildren()
+        for i, v in pairs(poses) do
+            Character.HumanoidRootPart.CFrame = v.CFrame
+            task.wait(0.05)
+            if getgenv().settingsTable.farmevent == false then break end
+        end
+    end
+    local Event = Window:Tab({Name = "Event",Icon = "rbxassetid://7240801337",Color = Color3.new(1, 0, 0)})
+    local Event = Event:Section({Name = "Collect stuff for the event!"})
+    Event:Toggle({Name = "Collect Event Stuff",Default = getgenv().settingsTable.farmevent,Callback = function(Value)
+        getgenv().settingsTable.farmevent = Value
+        local oldpos = Character.HumanoidRootPart.CFrame
+        game:GetService("RunService").Heartbeat:Connect(function()
+            if getgenv().settingsTable.farmevent == true and not eventrunning then
+                eventrunning = true
+                local success,errString = pcall(collectEvent)
+                if errString ~= nil then
+                    print("[clock.lua] Did the script run fully:",success,"  Error:" , errString)
+                end
+                task.wait()
+                eventrunning = false
+            end
+        end)
+        Character.HumanoidRootPart.CFrame = oldpos
+    end})
+end
+local Shop = Window:Tab({Name = "Shop",Icon = "rbxassetid://11396131982",Color = Color3.new(0, 1, 0.133333)})
+local Annoy = Window:Tab({Name = "Annoy",Icon = "rbxassetid://7240801337",Color = Color3.new(1, 0, 0)})
+local Gokart = Window:Tab({Name = "Gokart",Icon = "rbxassetid://9033642906",Color = Color3.new(1, 0.933333, 0)})
+local Carmods = Window:Tab({Name = "Carmods",Icon = "rbxassetid://9033642906",Color = Color3.new(1, 0, 0)})
+local LocalPlayer = Window:Tab({Name = "LocalPlayer",Icon = "rbxassetid://2795572800",Color = Color3.new(0, 0.015686, 1)})
+local Webhook = Window:Tab({Name = "Webhook",Icon = "rbxassetid://11401835376",Color = Color3.new(0, 0.850980, 1)})
+local Misc = Window:Tab({Name = "Misc",Icon = "rbxassetid://9265672808",Color = Color3.new(0.533333, 0.533333, 0.533333)})
+
+local Shop = Shop:Section({Name = "Automate tasks in your shop."})
+local Annoy = Annoy:Section({Name = "Annoy players with the use of your car."})
+local Gokart = Gokart:Section({Name = "Automatically win a gokart race!"})
+local Carmods = Carmods:Section({Name = "Car mods."})
+local LocalPlayer = LocalPlayer:Section({Name = "LocalPlayer."})
+local Webhook = Webhook:Section({Name = "Send your money to a webhook!"})
+local Misc = Misc:Section({Name = "Misc?"})
+
+-- Shop
+
+local oldearnings = Player.leaderstats.Cash.Value
+local ShopEarnings = Shop:Label({Name = "Earnings: 0"})
+
+spawn(function()
+    while true do
+        ShopEarnings:SetName("Earnings: "..tostring(Player.leaderstats.Cash.Value - oldearnings))
+        task.wait()
+    end
+end)
+
+Shop:Dropdown({Name = "What Item To Buy",Items = {"Toys","Clothing","Shoes","Hats","Candy","Snacks","Canned Food","Boxed Food","Cold Food","Baked Goods","Fruit","Vegetables","Condiments","Beverages","Small Electronics","Large Electroincs","PC Electronics","PC Peripherals","Office Electronics","Game Consoles","Videogames","Small Appliances","Large Appliances","Kitchenware","Luggage","Vacuum Cleaners","Personal Care","School Supplies","Brass Instruments","String Instruments","Pianos","Small Outdoor Equipment","Large Outdoor Equipment","Small Power Tools","Large Power Tools","Garden Tools","Paint Supplies","Lumber","Small Furniture","Large Furniture","Exercise Equipment","Game Tables","Personal Transport","Car Parts","Economy Cars","Jewelry","Guns","Ammo","Military Vehicles","Armored Vehicles"},Callback = function(Value)
+    getgenv().settingsTable.whattobuy = Value
+    saveSettings()
+end})
+
+Shop:Toggle({Name = "Instant Delivery",Default = getgenv().settingsTable.instantdelivery,Callback = function(Value)
+    getgenv().settingsTable.instantdelivery = Value
+    saveSettings()
+end})
+
+Shop:Slider({Name = "How Much To Buy",Max = 250, Min = 1, Default = getgenv().settingsTable.howmuchtobuy or 20,Callback = function(Value)
+    getgenv().settingsTable.howmuchtobuy = Value
+    saveSettings()
+end})
+
+Shop:Slider({Name = "Seconds To Wait Between Purchases",Max = 60, Min = 0, Default = getgenv().settingsTable.autobuytime or 30,Callback = function(Value)
+    getgenv().settingsTable.autobuytime = Value
+    saveSettings()
+end})
+
+Shop:Button({Name = "Purchase Items",Interact = "Button",Callback = function()
+    game:GetService("ReplicatedStorage").Remotes.BuyStorage:InvokeServer(getgenv().settingsTable.whattobuy or "Toys", getgenv().settingsTable.howmuchtobuy or 20, getgenv().settingsTable.instantdelivery or false)
+end})
+
+Shop:Toggle({Name = "Autobuy Items",Default = getgenv().settingsTable.autobuytoggle,Callback = function(Value)
+    getgenv().settingsTable.autobuytoggle = Value
+    saveSettings()
+    while getgenv().settingsTable.autobuytoggle do task.wait(getgenv().settingsTable.autobuytime or 30)
+        game:GetService("ReplicatedStorage").Remotes.BuyStorage:InvokeServer(getgenv().settingsTable.whattobuy or "Toys", getgenv().settingsTable.howmuchtobuy or 20, getgenv().settingsTable.instantdelivery or false)
+    end
+end})
+
+Shop:Label({Name = "Autofarming Stuff"})
+
+Shop:Toggle({Name = "Teleport To All Cashier Spots",Default = getgenv().settingsTable.autocashier,Callback = function(Value)
+    getgenv().settingsTable.autocashier = Value
+    saveSettings()
+    while getgenv().settingsTable.autocashier do task.wait()
+        tptoregisters()
+    end
+end})
+
+
+Shop:Toggle({Name = "Clean The Store Automatically",Default = getgenv().settingsTable.autocleantoggle,Callback = function(Value)
+    getgenv().settingsTable.autocleantoggle = Value
+    saveSettings()
+    while getgenv().settingsTable.autocleantoggle do task.wait()
+        cleanthestore()
+    end
+end})
+
+
+Shop:Toggle({Name = "Arrest Robbers Automatically",Default = getgenv().settingsTable.autoarresttoggle,Callback = function(Value)
+    getgenv().settingsTable.autoarresttoggle = Value
+    saveSettings()
+    while getgenv().settingsTable.autoarresttoggle do task.wait()
+        arrestrobbers()
+    end
+end})
+
+Shop:Toggle({Name = "Restock Automatically",Default = getgenv().settingsTable.autorestocktoggle,Callback = function(Value)
+    getgenv().settingsTable.autorestocktoggle = Value
+    saveSettings()
+    while getgenv().settingsTable.autorestocktoggle do task.wait()
+        autorestock()
+    end
+end})
+
+Shop:Label({Name = "Misc"})
+
+Shop:Toggle({Name = "Always view stock",Default = getgenv().settingsTable.viewrestock,Callback = function(Value)
+    getgenv().settingsTable.viewrestock = Value
+    saveSettings()
+    while getgenv().settingsTable.viewrestock do task.wait()
+        Player.PlayerGui.StockGui.Active.Value = true
+        if not getgenv().settingsTable.viewrestock then
+            Player.PlayerGui.StockGui.Active.Value = false
+        end
+    end
+end})
+
+-- Annoy
+
+local DropdownPlayers = Annoy:Dropdown({Name = "Player Picker",Items = {},Callback = function(Value)
+    target = Value
+end})
+
+spawn(function()
+    game:GetService("RunService").Heartbeat:Connect(function()
+        if not refreshplayertable then
+            refreshplayertable = true
+            task.wait(1.5)
+            refplayertable()
+            DropdownPlayers:UpdateList({Items = {unpack(PlayerTable)}, Replace = true})
+            task.wait(1.5)
+            refreshplayertable = false
+        end
+    end)
+end)
+
+Annoy:Toggle({Name = "Toggle Annoying",Default = getgenv().annoytoggle,Callback = function(Value)
+    getgenv().annoytoggle = Value
+    while getgenv().annoytoggle do task.wait()
+        annoyfunction()
+    end
+end})
+
+Annoy:Button({Name = "Teleport To Target",Interact = "Button",Callback = function()
+    Character.HumanoidRootPart.CFrame = Players[target].Character.HumanoidRootPart.CFrame
+end})
+
+-- Gokart
+Gokart:Slider({Name = "Time Between Checkpoints (MS)",Max = 1000, Min = 10, Default = 100,Callback = function(Value)
+    getgenv().settingsTable.gokarttime = (Value/1000)
+    saveSettings()
+end})
+
+Gokart:Slider({Name = "How Much Laps",Max = 50, Min = 0, Default = 4,Callback = function(Value)
+    getgenv().settingsTable.gokartlaps = Value
+    saveSettings()
+end})
+
+Gokart:Button({Name = "Start",Interact = "Button",Callback = function()
+    startgokart()
+end})
+
+Gokart:Label({Name = "Get a free gokart below!"})
+
+Gokart:Button({Name = "Steal Gokart",Interact = "Button",Callback = function()
+    stealgokart()
+end})
+
+-- Car Mods
+
+if not Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) then
+    Carmods:Slider({Name = "Max Speed",Max = 500, Min = 0, Default = 0,Callback = function(Value)
+        if Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) then
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Config.MaxSpeed.Value = Value
+        end
+    end})
+
+    Carmods:Slider({Name = "Torque",Max = 500, Min = 0, Default = 0,Callback = function(Value)
+        if Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) then
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Config.Power.Value = Value
+        end
+    end})
+
+    Carmods:Slider({Name = "Braking Power",Max = 500, Min = 0, Default = 0,Callback = function(Value)
+        if Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) then
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Config.BrakePower.Value = Value
+        end
+    end})
+else
+    Carmods:Slider({Name = "Max Speed",Max = 500, Min = 0, Default = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Config.MaxSpeed.Value,Callback = function(Value)
+        if Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) then
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Config.MaxSpeed.Value = Value
+        end
+    end})
+    Carmods:Slider({Name = "Torque",Max = 500, Min = 0, Default = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Config.Power.Value,Callback = function(Value)
+        if Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) then
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Config.Power.Value = Value
+        end
+    end})
+    Carmods:Slider({Name = "Braking Power",Max = 500, Min = 0, Default = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Config.BrakePower.Value,Callback = function(Value)
+        if Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) then
+            Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Config.BrakePower.Value = Value
+        end
+    end})
+end
+
+-- LocalPlayer
+
+LocalPlayer:Slider({Name = "Walk Speed",Max = 100, Min = 0, Default = getgenv().settingsTable.localplayerspeed or 16,Callback = function(Value)
+    Character.Humanoid.WalkSpeed = Value
+    if Character.Humanoid.JumpPower == 50 and Character.Humanoid.WalkSpeed == 16 then
+        Player.Backpack.Sprint.Disabled = false
+    else
+        Player.Backpack.Sprint.Disabled = true
+    end
+    getgenv().settingsTable.localplayerspeed = Value
+    saveSettings()
+end})
+
+LocalPlayer:Slider({Name = "Jump Power",Max = 100, Min = 0, Default = getgenv().settingsTable.localplayerjump or 50,Callback = function(Value)
+    Character.Humanoid.JumpPower = Value
+    if Character.Humanoid.JumpPower == 50 and Character.Humanoid.WalkSpeed == 16 then
+        Player.Backpack.Sprint.Disabled = false
+    else
+        Player.Backpack.Sprint.Disabled = true
+    end
+    getgenv().settingsTable.localplayerjump = Value
+    saveSettings()
+end})
+
+LocalPlayer:Slider({Name = "Gravity",Max = 196.2, Min = 0, Default = getgenv().settingsTable.localplayergravity or 196.2,Callback = function(Value)
+    Wrkspc.Gravity = Value
+    getgenv().settingsTable.localplayergravity = Value
+    saveSettings()
+end})
+
+LocalPlayer:Toggle({Name = "Toggle Infinite Jump",Default = getgenv().settingsTable.infjump,Callback = function(Value)
+    getgenv().settingsTable.infjump = Value
+    saveSettings()
+end})
+
+-- Webhook
+
+Webhook:Toggle({Name = "Toggle Sending Current Money To Webhook",Default = getgenv().settingsTable.webhooksendtoggle,Callback = function(Value)
+    getgenv().settingsTable.webhooksendtoggle = Value
+    saveSettings()
+    while getgenv().settingsTable.webhooksendtoggle do task.wait()
+        if not getgenv().settingsTable.webhooklink or getgenv().settingsTable.webhooklink == "" then
+            Vision:Notify({Name = "Error!", Text = ("Webhook Not Defined."), Icon = "rbxassetid://11401835376"});task.wait(1)
+        elseif not getgenv().settingsTable.webhooktimetosend then
+            Vision:Notify({Name = "Error!", Text = ("Webhook Time Not Defined."), Icon = "rbxassetid://11401835376"});task.wait(1)
+        else
+            local data = {["content"] = "",["embeds"] = {{
+                        ["title"] = "**Current money in Retail Tycoon 2:**",
+                        ["description"] = "**Money: "..Player.leaderstats.Cash.Value.."**\n".."**Username: "..Player.Name.."**\n".."**Rating: "..Player.leaderstats.Rating.Value.."**",
+                        ["type"] = "rich",
+                        ["color"] = tonumber(0x7269da),
+                        ["image"] = {["url"] = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username=" ..tostring(game:GetService("Players").LocalPlayer.Name)
+            }}}}
+            request = http_request or request or HttpPost or syn.request
+            request({Url = getgenv().settingsTable.webhooklink, Body = game:GetService("HttpService"):JSONEncode(data), Method = "POST", Headers = {["Content-Type"] = "application/json"}})
+            task.wait(getgenv().settingsTable.webhooktimetosend or 30)
+        end
+    end
+end})
+
+Webhook:SmallTextbox({Name = "Webhook link",Default = getgenv().settingsTable.webhooklink or "Enter A Webhook",Callback = function(Value)
+    getgenv().settingsTable.webhooklink = Value
+    saveSettings()
+end})
+Webhook:Slider({Name = "Send every (S)",Max = 120, Min = 0, Default = getgenv().settingsTable.webhooktimetosend or 30,Callback = function(Value)
+    getgenv().settingsTable.webhooktimetosend = Value
+    saveSettings()
+end})
+
+Webhook:Button({Name = "Test Webhook",Interact = "Button",Callback = function()
+    if not getgenv().settingsTable.webhooklink or getgenv().settingsTable.webhooklink == "" then
+        Vision:Notify({Name = "Error!", Text = ("Webhook Not Defined."), Icon = "rbxassetid://11401835376"})
+    else
+        local data = {["content"] = "",["embeds"] = {{
+            ["title"] = "**Current money in Retail Tycoon 2:**",
+            ["description"] = "**Money: "..Player.leaderstats.Cash.Value.."**\n".."**Username: "..Player.Name.."**\n".."**Rating: "..Player.leaderstats.Rating.Value.."**",
+            ["type"] = "rich",
+            ["color"] = tonumber(0x7269da),
+            ["image"] = {["url"] = "http://www.roblox.com/Thumbs/Avatar.ashx?x=150&y=150&Format=Png&username=" ..tostring(game:GetService("Players").LocalPlayer.Name)
+        }}}}
+        request = http_request or request or HttpPost or syn.request
+        request({Url = getgenv().settingsTable.webhooklink, Body = game:GetService("HttpService"):JSONEncode(data), Method = "POST", Headers = {["Content-Type"] = "application/json"}})
+        task.wait(getgenv().settingsTable.webhooktimetosend)
+    end
+end})
+
+-- Misc
+
+Misc:Toggle({Name = "Toggle RGB Store",Default = getgenv().settingsTable.rainbowmode,Callback = function(Value)
+    getgenv().settingsTable.rainbowmode = Value
+    saveSettings()
+    while getgenv().settingsTable.distancedriven do task.wait()
+        game:GetService("ReplicatedStorage").Remotes.SetStoreColor:FireServer(Color3.new(math.random(), math.random(), math.random()))
+        task.wait(0.25)
+    end
+end})
+
+Misc:Dropdown({Name = "Teleport",Items = {"Alan's Auto", "Gokart Track", "Loading Dock", "Your Own Plot", "Lighthouse"},Callback = function(Value)
+    if Value == "Alan's Auto" then
+        teleporting("alanauto")
+    elseif Value == "Gokart Track" then
+        teleporting("gokarttrack")
+    elseif Value == "Loading Dock" then
+        teleporting("loadingdock")
+    elseif Value == "Your Own Plot" then
+        teleporting("ownplot")
+    elseif Value == "Lighthouse" then
+        teleporting("lighthouse")
+    end
+end})
+
+Misc:Dropdown({Name = "Car Teleport",Items = {"Alan's Auto", "Gokart Track", "Loading Dock", "Your Own Plot", "Lighthouse"},Callback = function(Value)
+    if Value == "Alan's Auto" then
+        carteleporting("alanauto")
+    elseif Value == "Gokart Track" then
+        carteleporting("gokarttrack")
+    elseif Value == "Loading Dock" then
+        carteleporting("loadingdock")
+    elseif Value == "Your Own Plot" then
+        carteleporting("ownplot")
+    elseif Value == "Lighthouse" then
+        carteleporting("lighthouse")
+    end
+end})
+
+Misc:Toggle({Name = "Farm Distance Driven",Default = getgenv().settingsTable.distancedriven or false,Callback = function(Value)
+    getgenv().settingsTable.distancedriven = Value
+    saveSettings()
+    while getgenv().settingsTable.distancedriven do task.wait()
+        game:GetService("ReplicatedStorage").Remotes.IncrementDistanceDriven:FireServer(309.26824951171875 + math.random(-100.00000, 100.00000))
+    end
+end})
+
+Misc:Button({Name = "Fps Booster",Interact = "Button",Callback = function()
+    game.Lighting.GlobalShadows = false
+    game.Lighting.FogEnd = (9e9 * 9e9)
+    sethiddenproperty(game.Lighting, "Technology", 0)
+    settings().Rendering.QualityLevel = "Automatic"
+    for i, v in pairs(game:GetDescendants()) do
+        if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") or v:IsA("UnionOperation") or v:IsA("WedgePart") then
+            v.Material = "Plastic"
+            v.Reflectance = 0
+        elseif v:IsA("Decal") or v:IsA("Texture") then
+            v:Remove()
+        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+            v.Lifetime = NumberRange.new(0)
+        elseif v:IsA("Explosion") then
+            v.BlastPressure = 1
+            v.BlastRadius = 1
+        elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") then
+            v:Remove()
+        elseif v:IsA("MeshPart") then
+            v.Material = "Plastic"
+            v.Reflectance = 0
+            v.TextureID = 0
+        elseif v:IsA("BlurEffect") or v:IsA("SunRaysEffect") or v:IsA("ColorCorrectionEffect") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") then
+            v.Enabled = false
+        end
+    end
+end})
+
+Misc:Toggle({Name = "Anti-Sit",Default = getgenv().settingsTable.antisittoggle,Callback = function(Value)
+    getgenv().settingsTable.antisittoggle = Value
+    saveSettings()
+    while getgenv().settingsTable.antisittoggle do task.wait()
+        antisit()
+    end
+end})
+
+Misc:Button({Name = "Destroy UI", Callback = function()
+	Vision:Destroy()
+end})
