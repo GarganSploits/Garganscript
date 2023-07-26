@@ -319,12 +319,21 @@ OtherScriptsTab:AddButton({
         Name = "Flag Wars Script",
         Callback = function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/FreeRobloxScripts/Levis-HUB/main/mdfhg'))()
-            end
-OtherScriptsTab:AddButton({
-        Name = "Animal Simulator Autofarm",
-        Callback = function()
-            loadstring(game:HttpGet(('https://raw.githubusercontent.com/reasons240/animalsimulator/main/autofarm'),true))()
             end})
+OtherScriptsTab:AddSlider({
+	Name = "Create a Cart Ride Script",
+	Min = 0,
+	Max = 12000,
+	Default = 0,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 100,
+	ValueName = "YForce",
+	Callback = function(Value)
+		YForce = -Value;
+		KeyToReleaseRailMagnet = Enum.KeyCode.D;
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Rylvns/EnvisionExploits/master/game-scripts/Create%20a%20Cart%20Ride!/source.lua"))();
+	end    
+})
 --[[
 OtherScriptsTab:AddButton({
         Name = "button",
