@@ -12,7 +12,7 @@ OrionLib:MakeNotification({
 	Time = 4
 })
 
-_G.Key  = "VERSION-1.2"
+_G.Key  = "100SUBS"
 _G.KeyInput = "input string"
 
 function MakeScriptHub()
