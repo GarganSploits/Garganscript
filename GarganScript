@@ -12,10 +12,6 @@ local Player = game.Players.LocalPlayer
         Image = "rbxassetid://6523858422",
         Time = 4
     })
-	local function copyToClipboard(text)
-		local clipboard = game:GetService("GuiService"):GetClipBoard()
-		clipboard:SetAsync(text)
-	end	
 
 -- Tabs
 local GenScriptsTab = MainWindow:MakeTab({
@@ -359,16 +355,6 @@ local Section = Extras:AddSection({
 Extras:AddParagraph("Credits to:","Orion libs, for the design. The UI is basically made by them, I just modded some stuff and added some other. I'll be remaking the UI when this version gets updated and when the group reaches 120 members.")
 Extras:AddParagraph("Owner:","GarganSploits, aka .shrekharvey . DM me if you have any issues with the script or if you found any bug that the script has. Also give your opinion in the server to tell others what you think about my script!")
 Extras:AddParagraph("Join our Discord:","https://discord.com/invite/ZzQxNxqHRy")
-Extras:AddButton({
-	Name = "Copy Discord Invite!",
-	Callback = function()
-		TextButton.MouseButton1Click:Connect(function()
-			local linkToCopy = "https://discord.com/invite/ZzQxNxqHRy"
-			copyToClipboard(linkToCopy)
-			print("Link copied to clipboard!")
-		end)
-		
-})
 
 
 
